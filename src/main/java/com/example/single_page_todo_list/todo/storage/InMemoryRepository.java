@@ -15,7 +15,7 @@ public class InMemoryRepository {
 
     @PostConstruct
     void setup() {
-        for (int i = 1; i < 10; i++) {
+        for (int i = 1; i <= 10; i++) {
             add(TodoRecord.builder()
                     .title("# " + i)
                     .description("Buy salad")
