@@ -9,12 +9,12 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Route;
-import org.springframework.beans.factory.annotation.Autowired;
 
-@Route(value = "todo")
+@Route(value = "todo/:name")
 public class TodoUI extends VerticalLayout implements BeforeEnterObserver {
 
     private final InMemoryRepository repository;
+    String author;
 
     public TodoUI(InMemoryRepository repository) {
         this.repository = repository;
@@ -26,7 +26,7 @@ public class TodoUI extends VerticalLayout implements BeforeEnterObserver {
     protected void onAttach(AttachEvent attachEvent) {
         super.onAttach(attachEvent);
 
-        H2 title = new H2("TodoList ...");
+        H2 title = new H2("TodoList Application: " + author);
         add(title);
 
         grid = new Grid();
@@ -40,12 +40,12 @@ public class TodoUI extends VerticalLayout implements BeforeEnterObserver {
         add(grid);
     }
 
-    private void setItems(){
+    private void setItems() {
         grid.setItems(repository.getRecords());
     }
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
-
+        author = event.getRouteParameters().get("name").orElse("Unknown").toUpperCase();
     }
 }
